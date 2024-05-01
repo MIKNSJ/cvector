@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "cvector.h"
 
 
@@ -29,20 +30,27 @@ struct cvector {
 /**
  * Prints out the inputted vector
  * @param vector The vector.
- * @param size The size of the vector.
  * @return nothing
 */
-void print_vector(int **vector, size_t size);
+void print_vector(struct cvector* vector);
 
 
 
 /**
- * Prints out the size of the vector.
- * NOTE: We already know the size, but we are simply making a print function.
- * @param size The size of the vector.
- * @return nothing
+ * Returns the size of the vector.
+ * @param vector The vector.
+ * @return The size of the vector.
 */
-void size(size_t size);
+size_t size(struct cvector* vector);
+
+
+
+/**
+ * Checks if the vector is empty.
+ * @param vector The vector.
+ * @return True, if empty. Otherwise, false.
+*/
+bool empty(struct cvector* vector);
 
 
 
@@ -51,7 +59,7 @@ void size(size_t size);
  * @param vector The vector.
  * @return nothing
 */
-void clear(int **vector);
+void clear(struct cvector* vector);
 
 
 
@@ -61,7 +69,7 @@ void clear(int **vector);
  * @param value The value to be added.
  * @return nothing
 */
-void push_back(int **vector, int value, size_t *size);
+void push_back(struct cvector* vector, int value);
 
 
 

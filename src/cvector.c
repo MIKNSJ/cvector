@@ -17,17 +17,18 @@
  * @param size The size of the vector.
  * @return nothing
 */
-void print_vector(int **vector, size_t size) {
-    if (*vector == NULL) {
-        fprintf(stderr, "[ERROR]: The vector is not initialized.\n");
+void print_vector(struct cvector* vector) {
+    if (vector->arr == NULL) {
+        fprintf(stderr,
+            "[print_vector() ERROR]: The vector is not initialized.\n");
         return;
     }
 
     printf("[");
-    for (size_t i = 0; i < size; i++) {
-        printf("%d", *(*vector + i));
+    for (size_t i = 0; i < (size_t)vector->size; i++) {
+        printf("%d", *(vector->arr + i));
 
-        if (i < size - 1) {
+        if (i < vector->size - 1) {
             printf(" ");
         }
     }
@@ -37,13 +38,29 @@ void print_vector(int **vector, size_t size) {
 
 
 /**
- * Prints out the size of the vector.
- * NOTE: We already know the size, but we are simply making a print function.
- * @param size The size of the vector.
- * @return nothing
+ * Returns the size of the vector.
+ * NOTE: "return (*vector).size" is the same thing
+ * @param vector The vector.
+ * @return The size of the vector.
 */
-void size(size_t size) {
-    printf("Size: %lld\n", size);
+size_t size(struct cvector* vector) {
+    return vector->size;
+}
+
+
+
+/**
+ * Checks if the vector is empty.
+ * NOTE: Instead of bool, int can be used.
+ * @param vector The vector.
+ * @return True, if empty. Otherwise, false.
+*/
+bool empty(struct cvector* vector) {
+    if (vector->size == 0) {
+        return true;
+    }
+    
+    return false;
 }
 
 
@@ -53,15 +70,17 @@ void size(size_t size) {
  * @param vector The vector.
  * @return nothing
 */
-void clear(int **vector) {
-    if (*vector == NULL) {
-        fprintf(stderr, "[ERROR]: The vector is not initialized.\n");
+void clear(struct cvector* vector) {
+    if (vector->arr == NULL) {
+        fprintf(stderr, "[clear() ERROR]: The vector is not initialized.\n");
         return;
+    } else if (vector->size == 0) {
+        return;
+    } else {
+        free(vector->arr);
+        vector->arr = malloc(0 * sizeof(int));
+        vector->size = 0;
     }
-
-    free(*vector);
-    *vector = NULL;
-    vector = NULL;
 }
 
 
@@ -72,20 +91,22 @@ void clear(int **vector) {
  * @param value The value to be added.
  * @return nothing
 */
-void push_back(int **vector, int value, size_t *size) {
-    if (*vector == NULL) {
-        fprintf(stderr, "[ERROR]: The vector is not initialized.\n");
+void push_back(struct cvector* vector, int value) {
+    if (vector->arr == NULL) {
+        fprintf(stderr,
+            "[push_back() ERROR]: The vector is not initialized.\n");
         return;
     }
-    int *valid_vector = realloc(*vector, (*size + 1) * sizeof(int));
+    int *valid_vector = realloc(vector->arr, (vector->size + 1) * sizeof(int));
 
     if (valid_vector == NULL) {
-        fprintf(stderr, "[ERROR]: The vector reallocation failed. \n");
+        fprintf(stderr,
+            "[realloc ERROR]: The vector reallocation failed. \n");
         return;
     } else {
-        *vector = valid_vector;
+        vector->arr = valid_vector;
     }
 
-    *(*vector + *size) = value;
-    ++*size;
+    *(vector->arr + vector->size) = value;
+    ++vector->size;
 }
