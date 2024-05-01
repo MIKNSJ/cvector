@@ -37,6 +37,25 @@ void print_vector(int **vector, size_t size);
 
 
 /**
+ * Prints out the size of the vector.
+ * NOTE: We already know the size, but we are simply making a print function.
+ * @param size The size of the vector.
+ * @return nothing
+*/
+void size(size_t size);
+
+
+
+/**
+ * Clears out the entire vector
+ * @param vector The vector.
+ * @return nothing
+*/
+void clear(int **vector);
+
+
+
+/**
  * Adds an item to the end of the list.
  * @param vector The vector.
  * @param value The value to be added.

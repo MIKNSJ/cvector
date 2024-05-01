@@ -18,6 +18,11 @@
  * @return nothing
 */
 void print_vector(int **vector, size_t size) {
+    if (*vector == NULL) {
+        fprintf(stderr, "[ERROR]: The vector is not initialized.\n");
+        return;
+    }
+
     printf("[");
     for (size_t i = 0; i < size; i++) {
         printf("%d", *(*vector + i));
@@ -27,6 +32,36 @@ void print_vector(int **vector, size_t size) {
         }
     }
     printf("]\n");
+}
+
+
+
+/**
+ * Prints out the size of the vector.
+ * NOTE: We already know the size, but we are simply making a print function.
+ * @param size The size of the vector.
+ * @return nothing
+*/
+void size(size_t size) {
+    printf("Size: %lld\n", size);
+}
+
+
+
+/**
+ * Clears out the entire vector
+ * @param vector The vector.
+ * @return nothing
+*/
+void clear(int **vector) {
+    if (*vector == NULL) {
+        fprintf(stderr, "[ERROR]: The vector is not initialized.\n");
+        return;
+    }
+
+    free(*vector);
+    *vector = NULL;
+    vector = NULL;
 }
 
 
