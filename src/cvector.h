@@ -23,6 +23,7 @@
 struct cvector {
     int *arr;
     size_t size;
+    size_t capacity;
 };
 
 
@@ -42,6 +43,25 @@ void print_vector(struct cvector* vector);
  * @return The size of the vector.
 */
 size_t size(struct cvector* vector);
+
+
+
+/**
+ * Returns the capacity of the vector.
+ * @param vector The vector.
+ * @return The capacity of the vector.
+*/
+size_t capacity(struct cvector* vector);
+
+
+
+/**
+ * Requests that the vector capacity be at least enough to contain n elements.
+ * @param vector The vector.
+ * @param new_cap The new capacity.
+ * @return nothing
+*/
+void reserve(struct cvector* vector, size_t curr_cap);
 
 
 
@@ -70,6 +90,15 @@ void clear(struct cvector* vector);
  * @return nothing
 */
 void push_back(struct cvector* vector, int value);
+
+
+
+/**
+ * Deletes an item from the end of the list.
+ * @param vector The vector.
+ * @return nothing
+*/
+void pop_back(struct cvector* vector);
 
 
 

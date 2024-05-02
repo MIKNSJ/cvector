@@ -50,6 +50,51 @@ size_t size(struct cvector* vector) {
 
 
 /**
+ * Returns the capacity of the vector.
+ * @param vector The vector.
+ * @return The capacity of the vector.
+*/
+size_t capacity(struct cvector* vector) {
+    return vector->capacity;
+}
+
+
+
+/**
+ * Requests that the vector capacity be at least enough to contain n elements.
+ * @param vector The vector.
+ * @param new_cap The new capacity.
+ * @return nothing
+*/
+void reserve(struct cvector* vector, size_t new_cap) {
+    if (vector->arr == NULL) {
+        fprintf(stderr, "[reserve() ERROR]: The vector is not initialized.\n");
+        return;
+    }
+
+    if (vector->capacity > new_cap) {
+       fprintf(stderr,
+        "[reserve() ERROR]: Capacity is less then requested. \n");
+        return; 
+    } else if (vector->capacity == new_cap) {
+        return;
+    } else {
+        int *re_cap = realloc(vector->arr, new_cap * sizeof(int));
+
+        if (re_cap == NULL) {
+            fprintf(stderr,
+                "[realloc ERROR]: The vector reallocation failed. \n");
+            return;
+        }
+
+        vector->arr = re_cap;
+        vector->capacity = new_cap;
+    }
+}
+
+
+
+/**
  * Checks if the vector is empty.
  * NOTE: Instead of bool, int can be used.
  * @param vector The vector.
@@ -78,7 +123,7 @@ void clear(struct cvector* vector) {
         return;
     } else {
         free(vector->arr);
-        vector->arr = malloc(0 * sizeof(int));
+        vector->arr = malloc(vector->size * sizeof(int));
         vector->size = 0;
     }
 }
@@ -97,16 +142,38 @@ void push_back(struct cvector* vector, int value) {
             "[push_back() ERROR]: The vector is not initialized.\n");
         return;
     }
-    int *valid_vector = realloc(vector->arr, (vector->size + 1) * sizeof(int));
 
-    if (valid_vector == NULL) {
-        fprintf(stderr,
-            "[realloc ERROR]: The vector reallocation failed. \n");
-        return;
-    } else {
-        vector->arr = valid_vector;
+    if (vector->size == vector->capacity) {
+        reserve(vector, vector->capacity + 1);
     }
 
     *(vector->arr + vector->size) = value;
     ++vector->size;
+}
+
+
+
+/**
+ * Deletes an item from the end of the list.
+ * @param vector The vector.
+ * @return nothing
+*/
+void pop_back(struct cvector* vector) {
+    if (vector->arr == NULL) {
+        fprintf(stderr,
+            "[pop_back() ERROR]: The vector is not initialized.\n");
+        return;
+    } else if (vector->size == 0) {
+        return;
+    } else {
+        int* new_vec = malloc(vector->capacity * sizeof(int));
+
+        for (size_t i = 0; i < (size_t)vector->size - 1; i++) {
+            *(new_vec + i) = *(vector->arr + i);
+        }
+
+        free(vector->arr);
+        vector->arr = new_vec;
+        --vector->size;
+    }
 }
