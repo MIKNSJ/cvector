@@ -14,7 +14,6 @@
 /**
  * Prints out the inputted vector
  * @param vector The vector.
- * @param size The size of the vector.
  * @return nothing
 */
 void print_vector(struct cvector* vector) {
@@ -25,10 +24,11 @@ void print_vector(struct cvector* vector) {
     }
 
     printf("[");
-    for (size_t i = 0; i < (size_t)vector->size; i++) {
+    for (size_t i = 0; i < (size_t)vector->capacity; i++) {
         printf("%d", *(vector->arr + i));
+        //printf("[%lld]", sizeof(*(vector->arr + i)));
 
-        if (i < vector->size - 1) {
+        if (i < vector->capacity - 1) {
             printf(" ");
         }
     }
@@ -44,6 +44,11 @@ void print_vector(struct cvector* vector) {
  * @return The size of the vector.
 */
 size_t size(struct cvector* vector) {
+    if (vector->arr == NULL) {
+        fprintf(stderr, "[size() ERROR]: The vector is not initialized.\n");
+        return -1;
+    }
+
     return vector->size;
 }
 
@@ -55,6 +60,11 @@ size_t size(struct cvector* vector) {
  * @return The capacity of the vector.
 */
 size_t capacity(struct cvector* vector) {
+    if (vector->arr == NULL) {
+        fprintf(stderr, "[capacity() ERROR]: The vector is not initialized.\n");
+        return -1;
+    }
+
     return vector->capacity;
 }
 
@@ -101,6 +111,11 @@ void reserve(struct cvector* vector, size_t new_cap) {
  * @return True, if empty. Otherwise, false.
 */
 bool empty(struct cvector* vector) {
+    if (vector->arr == NULL) {
+        fprintf(stderr, "[empty() ERROR]: The vector is not initialized.\n");
+        return true;
+    }
+
     if (vector->size == 0) {
         return true;
     }
@@ -111,7 +126,7 @@ bool empty(struct cvector* vector) {
 
 
 /**
- * Clears out the entire vector
+ * Clears out the entire vector.
  * @param vector The vector.
  * @return nothing
 */
@@ -147,8 +162,26 @@ void push_back(struct cvector* vector, int value) {
         reserve(vector, vector->capacity + 1);
     }
 
-    *(vector->arr + vector->size) = value;
+    *(vector->arr + vector->capacity - 1) = value;
     ++vector->size;
+}
+
+
+
+/**
+ * Adds an item to the beginning of the list.
+ * @param vector The vector.
+ * @param value The value to be added.
+ * @return nothing
+*/
+void push_front(struct cvector* vector, int value) {
+    if (vector->arr == NULL) {
+        fprintf(stderr,
+            "[push_front() ERROR]: The vector is not initialized.\n");
+        return;
+    }
+
+    insert(vector, value, 0);
 }
 
 
@@ -168,12 +201,139 @@ void pop_back(struct cvector* vector) {
     } else {
         int* new_vec = malloc(vector->capacity * sizeof(int));
 
-        for (size_t i = 0; i < (size_t)vector->size - 1; i++) {
+        for (size_t i = 0; i < (size_t)vector->capacity - 1; i++) {
             *(new_vec + i) = *(vector->arr + i);
+        }
+
+        if (*(vector->arr + vector->capacity - 1) < 1000000) {
+            --vector->size;
         }
 
         free(vector->arr);
         vector->arr = new_vec;
+        //--vector->size;
+    }
+}
+
+
+
+/**
+ * Deletes an item from the beginning of the list.
+ * @param vector The vector.
+ * @return nothing
+*/
+void pop_front(struct cvector* vector) {
+    if (vector->arr == NULL) {
+        fprintf(stderr,
+            "[pop_front() ERROR]: The vector is not initialized.\n");
+        return;
+    }
+
+    erase(vector, 0);
+}
+
+
+
+/**
+ * Inserts an item at the specified index
+ * @param vector The vector.
+ * @param idx The idx of insertion.
+ * @return nothing
+*/
+void insert(struct cvector* vector, int value, int idx) {
+    if (vector->arr == NULL) {
+        fprintf(stderr,
+            "[insert() ERROR]: The vector is not initialized.\n");
+        return;
+    }
+
+    if (idx < 0 || idx > (int)vector->capacity) {
+        fprintf(stderr,
+            "[insert() ERROR]: Idx is out of bounds.\n");
+        return;
+    }
+
+    if (vector->size == vector->capacity) {
+        reserve(vector, vector->capacity + 1);
+    }
+
+    int old_val;
+    int new_val = value;
+    for (size_t i = idx; i < (size_t)vector->capacity; i++) {
+        old_val = *(vector->arr + i);
+        *(vector->arr + i) = new_val;
+        new_val = old_val;
+    }
+
+    ++vector->size;
+}
+
+
+
+/**
+ * Deletes an item at the specified index.
+ * @param idx The idx of deletion.
+ * @return nothing
+*/
+void erase(struct cvector* vector, int idx) {
+    if (vector->arr == NULL) {
+        fprintf(stderr,
+            "[erase() ERROR]: The vector is not initialized.\n");
+        return;
+    }
+
+    if (idx < 0 || idx > (int)vector->capacity) {
+        fprintf(stderr,
+            "[erase() ERROR]: Idx is out of bounds.\n");
+        return;
+    }
+
+    if (idx == (int)vector->capacity - 1) {
+        pop_back(vector);
+        return;
+    }
+
+    if (*(vector->arr + idx) < 1000000) {
         --vector->size;
     }
+
+    int new_val;
+    for (size_t i = idx; i < (size_t)vector->capacity; i++) {
+        new_val = *(vector->arr + i + 1);
+        *(vector->arr + i) = new_val;
+    }
+
+    //--vector->size;
+}
+
+
+
+/**
+ * Swaps two vectors together.
+ * @param a One vector.
+ * @param b Another vector.
+ * @return nothing
+*/
+void swap(struct cvector* a, struct cvector* b) {
+    if (a->arr == NULL || b->arr == NULL) {
+        fprintf(stderr,
+            "[swap() ERROR]: At least one vector is not initialized.\n");
+        return;
+    }
+
+    struct cvector hold = *a;
+    *a = *b;
+    *b = hold;
+}
+
+
+
+/**
+ * Returns the element at idx of vector.
+ * @param vector The vector.
+ * @param idx The idx of the item.
+ * @return The item.
+*/
+int at(struct cvector* vector, int idx) {
+    return *(vector->arr + idx);
 }

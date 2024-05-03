@@ -229,6 +229,263 @@ void test_pop_back() {
 
 
 /**
+ * Tests the insert method.
+*/
+void test_insert() {
+    printf("========== test_insert() ==========\n");
+    struct cvector null_vec = {NULL, 0, 0};
+    struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    struct cvector half_vec = {malloc(5 * sizeof(int)), 3, 5};
+    half_vec.arr[0] = 1;
+    half_vec.arr[1] = 2;
+    half_vec.arr[2] = 3;
+    struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    fixed_vec.arr[0] = 1;
+    fixed_vec.arr[1] = 2;
+    fixed_vec.arr[2] = 3;
+    fixed_vec.arr[3] = 4;
+    fixed_vec.arr[4] = 5;
+
+    insert(&null_vec, 1, 1);
+    insert(&empty_vec, 1, 1);
+    insert(&empty_vec, 1, -1);
+    insert(&empty_vec, 1, 0);
+    insert(&half_vec, 7, 4);
+    insert(&fixed_vec, 10, 4);
+    insert(&fixed_vec, 60, 0);
+    printf("\n");
+
+    print_vector(&null_vec);
+    printf("Size: %lld\n", size(&null_vec));
+    printf("Capacity: %lld\n\n", capacity(&null_vec));
+    print_vector(&empty_vec);
+    printf("Size: %lld\n", size(&empty_vec));
+    printf("Capacity: %lld\n\n", capacity(&empty_vec));
+    print_vector(&half_vec);
+    printf("Size: %lld\n", size(&half_vec));
+    printf("Capacity: %lld\n\n", capacity(&half_vec));
+    print_vector(&fixed_vec);
+    printf("Size: %lld\n", size(&fixed_vec));
+    printf("Capacity: %lld\n\n", capacity(&fixed_vec));
+    printf("\n\n");
+
+    free(null_vec.arr);
+    free(empty_vec.arr);
+    free(half_vec.arr);
+    free(fixed_vec.arr);
+}
+
+
+
+/**
+ * Tests the erase method.
+*/
+void test_erase() {
+    printf("========== test_erase() ==========\n");
+    struct cvector null_vec = {NULL, 0, 0};
+    struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    struct cvector half_vec = {malloc(5 * sizeof(int)), 3, 5};
+    half_vec.arr[0] = 1;
+    half_vec.arr[1] = 2;
+    half_vec.arr[2] = 3;
+    struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    fixed_vec.arr[0] = 1;
+    fixed_vec.arr[1] = 2;
+    fixed_vec.arr[2] = 3;
+    fixed_vec.arr[3] = 4;
+    fixed_vec.arr[4] = 5;
+    struct cvector fixed_vec_two = {malloc(5 * sizeof(int)), 4, 5};
+    fixed_vec_two.arr[1] = 2;
+    fixed_vec_two.arr[2] = 3;
+    fixed_vec_two.arr[3] = 4;
+    fixed_vec_two.arr[4] = 5;
+
+    erase(&null_vec, 0);
+    erase(&empty_vec, 1);
+    erase(&empty_vec, -1);
+    erase(&empty_vec, 0);
+    insert(&half_vec, 7, 4);
+    erase(&half_vec, 0);
+    erase(&half_vec, 2);
+    erase(&half_vec, 4);
+    erase(&fixed_vec, 4);
+    erase(&fixed_vec_two, 0);
+    printf("\n");
+
+    print_vector(&null_vec);
+    printf("Size: %lld\n", size(&null_vec));
+    printf("Capacity: %lld\n\n", capacity(&null_vec));
+    print_vector(&empty_vec);
+    printf("Size: %lld\n", size(&empty_vec));
+    printf("Capacity: %lld\n\n", capacity(&empty_vec));
+    print_vector(&half_vec);
+    printf("Size: %lld\n", size(&half_vec));
+    printf("Capacity: %lld\n\n", capacity(&half_vec));
+    print_vector(&fixed_vec);
+    printf("Size: %lld\n", size(&fixed_vec));
+    printf("Capacity: %lld\n\n", capacity(&fixed_vec));
+    print_vector(&fixed_vec_two);
+    printf("Size: %lld\n", size(&fixed_vec_two));
+    printf("Capacity: %lld\n\n", capacity(&fixed_vec_two));
+    printf("\n\n");
+
+    free(null_vec.arr);
+    free(empty_vec.arr);
+    free(half_vec.arr);
+    free(fixed_vec.arr);
+}
+
+
+
+/**
+ * Tests the swap method.
+*/
+void test_swap() {
+    printf("========== test_swap() ==========\n");
+    struct cvector null_vec = {NULL, 0, 0};
+    struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    fixed_vec.arr[0] = 1;
+    fixed_vec.arr[1] = 2;
+    fixed_vec.arr[2] = 3;
+    fixed_vec.arr[3] = 4;
+    fixed_vec.arr[4] = 5;
+
+    swap(&null_vec, &empty_vec);
+    swap(&empty_vec, &fixed_vec);
+
+    print_vector(&null_vec);
+    printf("Size: %lld\n", size(&null_vec));
+    printf("Capacity: %lld\n\n", capacity(&null_vec));
+    print_vector(&empty_vec);
+    printf("Size: %lld\n", size(&empty_vec));
+    printf("Capacity: %lld\n\n", capacity(&empty_vec));
+    print_vector(&fixed_vec);
+    printf("Size: %lld\n", size(&fixed_vec));
+    printf("Capacity: %lld\n\n", capacity(&fixed_vec));
+    printf("\n\n");
+
+    free(null_vec.arr);
+    free(empty_vec.arr);
+    free(fixed_vec.arr);
+}
+
+
+
+/**
+ * Tests the push front method.
+*/
+void test_push_front() {
+    printf("========== test_push_front() ==========\n");
+    struct cvector null_vec = {NULL, 0, 0};
+    struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    struct cvector half_vec = {malloc(5 * sizeof(int)), 3, 5};
+    half_vec.arr[0] = 1;
+    half_vec.arr[1] = 2;
+    half_vec.arr[2] = 3;
+    struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    fixed_vec.arr[0] = 1;
+    fixed_vec.arr[1] = 2;
+    fixed_vec.arr[2] = 3;
+    fixed_vec.arr[3] = 4;
+    fixed_vec.arr[4] = 5;
+
+    push_front(&null_vec, 1);
+    push_front(&empty_vec, 1);
+    push_front(&half_vec, 4);
+    push_front(&fixed_vec, 6);
+
+    print_vector(&null_vec);
+    printf("Size: %lld\n", size(&null_vec));
+    printf("Capacity: %lld\n\n", capacity(&null_vec));
+    print_vector(&empty_vec);
+    printf("Size: %lld\n", size(&empty_vec));
+    printf("Capacity: %lld\n\n", capacity(&empty_vec));
+    print_vector(&half_vec);
+    printf("Size: %lld\n", size(&half_vec));
+    printf("Capacity: %lld\n\n", capacity(&half_vec));
+    print_vector(&fixed_vec);
+    printf("Size: %lld\n", size(&fixed_vec));
+    printf("Capacity: %lld\n\n", capacity(&fixed_vec));
+    printf("\n\n");
+
+    free(null_vec.arr);
+    free(empty_vec.arr);
+    free(half_vec.arr);
+    free(fixed_vec.arr);
+}
+
+
+
+/**
+ * Tests the pop front method.
+*/
+void test_pop_front() {
+    printf("========== test_pop_front() ==========\n");
+    struct cvector null_vec = {NULL, 0, 0};
+    struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    struct cvector half_vec = {malloc(5 * sizeof(int)), 3, 5};
+    half_vec.arr[0] = 1;
+    half_vec.arr[1] = 2;
+    half_vec.arr[2] = 3;
+    struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    fixed_vec.arr[0] = 1;
+    fixed_vec.arr[1] = 2;
+    fixed_vec.arr[2] = 3;
+    fixed_vec.arr[3] = 4;
+    fixed_vec.arr[4] = 5;
+
+    pop_front(&null_vec);
+    pop_front(&empty_vec);
+    pop_front(&half_vec);
+    pop_front(&fixed_vec);
+
+    print_vector(&null_vec);
+    printf("Size: %lld\n", size(&null_vec));
+    printf("Capacity: %lld\n\n", capacity(&null_vec));
+    print_vector(&empty_vec);
+    printf("Size: %lld\n", size(&empty_vec));
+    printf("Capacity: %lld\n\n", capacity(&empty_vec));
+    print_vector(&half_vec);
+    printf("Size: %lld\n", size(&half_vec));
+    printf("Capacity: %lld\n\n", capacity(&half_vec));
+    print_vector(&fixed_vec);
+    printf("Size: %lld\n", size(&fixed_vec));
+    printf("Capacity: %lld\n\n", capacity(&fixed_vec));
+    printf("\n\n");
+
+    free(null_vec.arr);
+    free(empty_vec.arr);
+    free(half_vec.arr);
+    free(fixed_vec.arr);
+}
+
+
+
+/**
+ * Tests the at method.
+*/
+void test_at() {
+    printf("========== test_pop_front() ==========\n");
+    struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    fixed_vec.arr[0] = 1;
+    fixed_vec.arr[1] = 2;
+    fixed_vec.arr[2] = 3;
+    fixed_vec.arr[3] = 4;
+    fixed_vec.arr[4] = 5;
+
+    printf("%d\n", at(&fixed_vec, 0));
+    printf("%d\n", at(&fixed_vec, 1));
+    printf("%d\n", at(&fixed_vec, 2));
+    printf("%d\n", at(&fixed_vec, 3));
+    printf("%d", at(&fixed_vec, 4));
+
+    free(fixed_vec.arr);
+}
+
+
+
+/**
  * The main function
  * @return 0 for success, 1 otherwise
 */
@@ -242,12 +499,18 @@ int main() {
     fixed_vec.arr[3] = 4;
     fixed_vec.arr[4] = 5; */
 
-    test_print_vector();
-    test_push_back();
-    test_clear();
-    test_empty();
-    test_reserve();
-    test_pop_back();
+    //test_print_vector();
+    //test_push_back();
+    //test_clear();
+    //test_empty();
+    //test_reserve();
+    //test_pop_back();
+    //test_insert();
+    test_erase();
+    //test_swap();
+    //test_push_front();
+    //test_pop_front();
+    //test_at();
 
     return 0;
 }

@@ -61,7 +61,7 @@ size_t capacity(struct cvector* vector);
  * @param new_cap The new capacity.
  * @return nothing
 */
-void reserve(struct cvector* vector, size_t curr_cap);
+void reserve(struct cvector* vector, size_t new_cap);
 
 
 
@@ -75,7 +75,7 @@ bool empty(struct cvector* vector);
 
 
 /**
- * Clears out the entire vector
+ * Clears out the entire vector.
  * @param vector The vector.
  * @return nothing
 */
@@ -94,11 +94,70 @@ void push_back(struct cvector* vector, int value);
 
 
 /**
+ * Adds an item to the beginning of the list.
+ * @param vector The vector.
+ * @param value The value to be added.
+ * @return nothing
+*/
+void push_front(struct cvector* vector, int value);
+
+
+
+/**
  * Deletes an item from the end of the list.
  * @param vector The vector.
  * @return nothing
 */
 void pop_back(struct cvector* vector);
+
+
+
+/**
+ * Deletes an item from the beginning of the list.
+ * @param vector The vector.
+ * @return nothing
+*/
+void pop_front(struct cvector* vector);
+
+
+
+/**
+ * Inserts an item at the specified index.
+ * @param vector The vector.
+ * @param value The value to be inserted.
+ * @param idx The idx of insertion.
+ * @return nothing
+*/
+void insert(struct cvector* vector, int value, int idx);
+
+
+
+/**
+ * Deletes an item at the specified index.
+ * @param idx The idx of deletion.
+ * @return nothing
+*/
+void erase(struct cvector* vector, int idx);
+
+
+
+/**
+ * Swaps two vectors together.
+ * @param a One vector.
+ * @param b Another vector.
+ * @return nothing
+*/
+void swap(struct cvector* a, struct cvector* b);
+
+
+
+/**
+ * Returns the element at idx of vector.
+ * @param vector The vector.
+ * @param idx The idx of the item.
+ * @return The item.
+*/
+int at(struct cvector* vector, int idx);
 
 
 
