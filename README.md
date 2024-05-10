@@ -1,9 +1,7 @@
 # cvector
 
 ## Overview
-```cvector``` is the implementation of the ```vector``` library from C++ in C. This aims to provide more features than the standard array. Specific details about the C++ vector are referred [here](https://cplusplus.com/reference/vector/vector/).
-
-Please NOTE: The vector library is designed around ```int``` values. Other types of data must require the user to change all instances of ```<int> --> <new_data_type>```. This means that there is a chance that the library may not work as intended for the new data type.
+```cvector``` is the implementation of the ```vector``` library from C++ in C. This aims to provide more features than the standard array. Documentation about the C++ vector library can be read [here](https://cplusplus.com/reference/vector/vector/).
 
 ## Contents
 This section goes over files/folder in the repository.
@@ -13,18 +11,25 @@ First, nagivate over to ```dir=src```.
 -   ```cvector.c```: implementation of cvector.
 -   ```cvector.h```: outline of cvector.
 -   ```test.c```: tests the cvector file.
+-   ```README.md```: overview of cvector.
+-   ```.gitignore```: config file to ignore new generated files (used by any collaborator(s)).
 
 ## Setup
 In this section, we are assuming that the user has some knowledge of C/C++ and has setup a working environment.
 
-1.  Download ```cvector.h``` and ```cvector.c``` files.
+1.  Download/copy ```cvector.h``` and ```cvector.c``` files.
 2.  Place the files into your working directory.
 3.  Enable cvector features by writing ```#include "cvector.h"``` or the **path of that file** at the top of your ```.c``` file.
+4.  Create a cvector structure using ```struct cvector <name>```.
+5.  Call cvector functions using ```<name>.<function-name>```.
 
 You can now use features of ```cvector```!
 
 ## Functions
+This section goes over the avaliable functions for the cvector library.
 -   ```cvector```: creates a vector structure with user-defined size and capacity.
+-   ```c2dvector```: creates a 2D-vector structure with user-defined size and capacity.
+-   ```cvector_init```: initializes the cvector structure with zeroes (calloc).
 -   ```print_vector```: prints out the items in the vector.
 -   ```size```: returns the size of the vector.
 -   ```capacity```: returns the capacity of the vector.
@@ -42,29 +47,31 @@ You can now use features of ```cvector```!
 
 <br>
 
-**A value that is ```>=1000000``` indicates a memory address without a valid value at ```vector[i]``` (form of NULL). Therefore, values that are greater than the specified threshold above should not be used as valid values in a vector. This prevents the size of vector to be incorrectly modified after deletion of a NULL value**.
+**Notes**
+
+*We will denote the value ```-1``` as space that is uninitialized. Please refer to the size of the vector in order to determine the valid elements.*
 
 *```reserve```: only increases the vector capacity to a larger amount than it currently is, but not smaller.*
 
-*```insert```: does not add after the last element. Rather, the user must call push_back instead.*
+*There is currently no function to decrease a fixed size yet (resize).*
 
-*```push``` and ```pop``` functions will also consider entries which only memory addresses.*
+*There is currently no function to decrease a fixed capacity yet (shrink_to_fit).*
 
-*```insert``` and ```delete``` functions can remove addresses where no such valid value exists,so relocation of other items in the vector still occurs.*
-
-*There is currently no function to decrease capacity yet.*
+*If you prefer to insert/add elements using index/bracket notation, please be sure to not leave any
+space uninitialized as this may cause potenial errors.*
 
 ## Limitations
 This section addresses some features that are not developed yet.
-- 2D vector support
+
+Please NOTE: The vector library is designed around ```int``` values. Other types of data must require the user to change all instances of ```<int> --> <new_data_type>```. This means that there is a chance that the library may not work as intended for the new data type. cvector does NOT support static arrays.
+
+- nth-dimension vector support
 - Other data types support
 - Other vector functions support
-- Memory deallocation
-- NULL values (just memory addresses and no valid values) identifier
 - Max size limit
-- Static/fixed arrays
+- Check if memory freed properly
 
 ## Tools
 This section goes over the tools used for this library.
 
-- gcc 13.2.0 by MSYS2.
+- gcc 13.2.0 by MSYS2 (UCRT64).

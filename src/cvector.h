@@ -29,11 +29,31 @@ struct cvector {
 
 
 /**
+ * Define a 2D-cvector structure.
+*/
+struct c2dvector {
+    int **arr;
+    size_t size;
+    size_t capacity;
+};
+
+
+
+/**
  * Prints out the inputted vector
  * @param vector The vector.
  * @return nothing
 */
 void print_vector(struct cvector* vector);
+
+
+
+/**
+ * Initializes the inputted vector
+ * @param vector The vector.
+ * @return nothing
+*/
+void cvector_init(struct cvector* vector);
 
 
 

@@ -26,13 +26,31 @@ void print_vector(struct cvector* vector) {
     printf("[");
     for (size_t i = 0; i < (size_t)vector->capacity; i++) {
         printf("%d", *(vector->arr + i));
-        //printf("[%lld]", sizeof(*(vector->arr + i)));
 
         if (i < vector->capacity - 1) {
             printf(" ");
         }
     }
     printf("]\n");
+}
+
+
+
+/**
+ * Initializes the inputted vector
+ * @param vector The vector.
+ * @return nothing
+*/
+void cvector_init(struct cvector* vector) {
+    if (vector->arr == NULL) {
+        fprintf(stderr,
+            "[cvector_init() ERROR]: The vector cannot be NULL.\n");
+        return;
+    }
+
+    for (size_t i = 0; i < vector->capacity; i++) {
+        *(vector->arr + i) = -1;
+    }
 }
 
 
@@ -95,6 +113,10 @@ void reserve(struct cvector* vector, size_t new_cap) {
             fprintf(stderr,
                 "[realloc ERROR]: The vector reallocation failed. \n");
             return;
+        } 
+
+        for (size_t i = vector->size; i < (size_t)new_cap; i++) {
+            *(re_cap + i) = -1;
         }
 
         vector->arr = re_cap;
@@ -139,6 +161,7 @@ void clear(struct cvector* vector) {
     } else {
         free(vector->arr);
         vector->arr = malloc(vector->size * sizeof(int));
+        cvector_init(vector);
         vector->size = 0;
     }
 }
@@ -162,7 +185,7 @@ void push_back(struct cvector* vector, int value) {
         reserve(vector, vector->capacity + 1);
     }
 
-    *(vector->arr + vector->capacity - 1) = value;
+    *(vector->arr + vector->size) = value;
     ++vector->size;
 }
 
@@ -201,17 +224,17 @@ void pop_back(struct cvector* vector) {
     } else {
         int* new_vec = malloc(vector->capacity * sizeof(int));
 
-        for (size_t i = 0; i < (size_t)vector->capacity - 1; i++) {
-            *(new_vec + i) = *(vector->arr + i);
-        }
-
-        if (*(vector->arr + vector->capacity - 1) < 1000000) {
-            --vector->size;
+        for (size_t i = 0; i < (size_t)vector->capacity; i++) {
+            if (i < vector->size - 1) {
+                *(new_vec + i) = *(vector->arr + i);
+            } else {
+                *(new_vec + i) = -1;
+            }
         }
 
         free(vector->arr);
         vector->arr = new_vec;
-        //--vector->size;
+        --vector->size;
     }
 }
 
@@ -247,9 +270,10 @@ void insert(struct cvector* vector, int value, int idx) {
         return;
     }
 
-    if (idx < 0 || idx > (int)vector->capacity) {
+    if (idx < 0 || idx > (int)vector->capacity ||
+        (vector->size != vector->capacity && idx > (int)vector->size)) {
         fprintf(stderr,
-            "[insert() ERROR]: Idx is out of bounds.\n");
+            "[insert() ERROR]: Idx is out of bounds or no valid element.\n");
         return;
     }
 
@@ -282,28 +306,28 @@ void erase(struct cvector* vector, int idx) {
         return;
     }
 
-    if (idx < 0 || idx > (int)vector->capacity) {
+    if (idx < 0 || idx > (int)vector->size - 1) {
         fprintf(stderr,
-            "[erase() ERROR]: Idx is out of bounds.\n");
+            "[erase() ERROR]: Idx is out of bounds or no valid element.\n");
         return;
     }
 
-    if (idx == (int)vector->capacity - 1) {
+    if (idx == (int)vector->size - 1) {
         pop_back(vector);
         return;
     }
 
-    if (*(vector->arr + idx) < 1000000) {
-        --vector->size;
-    }
-
     int new_val;
     for (size_t i = idx; i < (size_t)vector->capacity; i++) {
-        new_val = *(vector->arr + i + 1);
-        *(vector->arr + i) = new_val;
+        if (i < (size_t)vector->size - 1) {
+            new_val = *(vector->arr + i + 1);
+            *(vector->arr + i) = new_val;
+        } else {
+            *(vector->arr + i) = -1;
+        }
     }
 
-    //--vector->size;
+    --vector->size;
 }
 
 

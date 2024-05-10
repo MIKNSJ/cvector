@@ -12,6 +12,38 @@
 
 
 /**
+ * Tests the cvector initialization method.
+ * @return nothing
+*/
+void test_cinit() {
+    printf("========== test_cinit() ==========\n");
+    struct cvector null_vec = {NULL, 0, 0};
+    struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+
+    cvector_init(&null_vec);
+    print_vector(&null_vec);
+    printf("Size: %lld\n", size(&null_vec));
+    printf("Capacity: %lld\n\n", capacity(&null_vec));
+
+    cvector_init(&empty_vec);
+    print_vector(&empty_vec);
+    printf("Size: %lld\n", size(&empty_vec));
+    printf("Capacity: %lld\n\n", capacity(&empty_vec));
+
+    cvector_init(&fixed_vec);
+    print_vector(&fixed_vec);
+    printf("Size: %lld\n", size(&fixed_vec));
+    printf("Capacity: %lld\n\n", capacity(&fixed_vec));
+    printf("\n\n");
+
+    free(null_vec.arr);
+    free(empty_vec.arr);
+    free(fixed_vec.arr);
+}
+
+
+/**
  * Tests the print vector method.
  * @return nothing
 */
@@ -50,12 +82,16 @@ void test_print_vector() {
 void test_push_back() {
     printf("========== test_push_back() ==========\n");
     struct cvector null_vec = {NULL, 0, 0};
+    cvector_init(&null_vec);
     struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    cvector_init(&empty_vec);
     struct cvector half_vec = {malloc(5 * sizeof(int)), 3, 5};
+    cvector_init(&half_vec);
     half_vec.arr[0] = 1;
     half_vec.arr[1] = 2;
     half_vec.arr[2] = 3;
     struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    cvector_init(&fixed_vec);
     fixed_vec.arr[0] = 1;
     fixed_vec.arr[1] = 2;
     fixed_vec.arr[2] = 3;
@@ -95,8 +131,11 @@ void test_push_back() {
 void test_clear() {
     printf("========== test_clear() ==========\n");
     struct cvector null_vec = {NULL, 0, 0};
+    cvector_init(&null_vec);
     struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    cvector_init(&empty_vec);
     struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    cvector_init(&fixed_vec);
     fixed_vec.arr[0] = 1;
     fixed_vec.arr[1] = 2;
     fixed_vec.arr[2] = 3;
@@ -110,6 +149,8 @@ void test_clear() {
     print_vector(&null_vec);
     print_vector(&empty_vec);
     print_vector(&fixed_vec);
+    printf("Size: %lld\n", size(&fixed_vec));
+    printf("Capacity: %lld\n\n", capacity(&fixed_vec));
     printf("\n\n");
 
     free(null_vec.arr);
@@ -125,8 +166,11 @@ void test_clear() {
 void test_empty() {
     printf("========== test_empty() ==========\n");
     struct cvector null_vec = {NULL, 0, 0};
+    cvector_init(&null_vec);
     struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    cvector_init(&empty_vec);
     struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    cvector_init(&fixed_vec);
     fixed_vec.arr[0] = 1;
     fixed_vec.arr[1] = 2;
     fixed_vec.arr[2] = 3;
@@ -147,12 +191,16 @@ void test_empty() {
 void test_reserve() {
     printf("========== test_reserve() ==========\n");
     struct cvector null_vec = {NULL, 0, 0};
+    cvector_init(&null_vec);
     struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    cvector_init(&empty_vec);
     struct cvector half_vec = {malloc(5 * sizeof(int)), 3, 5};
+    cvector_init(&half_vec);
     half_vec.arr[0] = 1;
     half_vec.arr[1] = 2;
     half_vec.arr[2] = 3;
     struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    cvector_init(&fixed_vec);
     fixed_vec.arr[0] = 1;
     fixed_vec.arr[1] = 2;
     fixed_vec.arr[2] = 3;
@@ -168,6 +216,7 @@ void test_reserve() {
     printf("Capacity: %lld\n\n", capacity(&empty_vec));
 
     reserve(&half_vec, 10);
+    print_vector(&half_vec);
     printf("Size: %lld\n", size(&half_vec));
     printf("Capacity: %lld\n\n", capacity(&half_vec));
 
@@ -189,12 +238,16 @@ void test_reserve() {
 void test_pop_back() {
     printf("========== test_pop_back() ==========\n");
     struct cvector null_vec = {NULL, 0, 0};
+    cvector_init(&null_vec);
     struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    cvector_init(&empty_vec);
     struct cvector half_vec = {malloc(5 * sizeof(int)), 3, 5};
+    cvector_init(&half_vec);
     half_vec.arr[0] = 1;
     half_vec.arr[1] = 2;
     half_vec.arr[2] = 3;
     struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    cvector_init(&fixed_vec);
     fixed_vec.arr[0] = 1;
     fixed_vec.arr[1] = 2;
     fixed_vec.arr[2] = 3;
@@ -234,12 +287,16 @@ void test_pop_back() {
 void test_insert() {
     printf("========== test_insert() ==========\n");
     struct cvector null_vec = {NULL, 0, 0};
+    cvector_init(&null_vec);
     struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    cvector_init(&empty_vec);
     struct cvector half_vec = {malloc(5 * sizeof(int)), 3, 5};
+    cvector_init(&half_vec);
     half_vec.arr[0] = 1;
     half_vec.arr[1] = 2;
     half_vec.arr[2] = 3;
     struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    cvector_init(&fixed_vec);
     fixed_vec.arr[0] = 1;
     fixed_vec.arr[1] = 2;
     fixed_vec.arr[2] = 3;
@@ -253,6 +310,7 @@ void test_insert() {
     insert(&half_vec, 7, 4);
     insert(&fixed_vec, 10, 4);
     insert(&fixed_vec, 60, 0);
+    insert(&fixed_vec, 99, 7);
     printf("\n");
 
     print_vector(&null_vec);
@@ -283,33 +341,29 @@ void test_insert() {
 void test_erase() {
     printf("========== test_erase() ==========\n");
     struct cvector null_vec = {NULL, 0, 0};
+    cvector_init(&null_vec);
     struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    cvector_init(&empty_vec);
     struct cvector half_vec = {malloc(5 * sizeof(int)), 3, 5};
+    cvector_init(&half_vec);
     half_vec.arr[0] = 1;
     half_vec.arr[1] = 2;
     half_vec.arr[2] = 3;
     struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    cvector_init(&fixed_vec);
     fixed_vec.arr[0] = 1;
     fixed_vec.arr[1] = 2;
     fixed_vec.arr[2] = 3;
     fixed_vec.arr[3] = 4;
     fixed_vec.arr[4] = 5;
-    struct cvector fixed_vec_two = {malloc(5 * sizeof(int)), 4, 5};
-    fixed_vec_two.arr[1] = 2;
-    fixed_vec_two.arr[2] = 3;
-    fixed_vec_two.arr[3] = 4;
-    fixed_vec_two.arr[4] = 5;
 
     erase(&null_vec, 0);
     erase(&empty_vec, 1);
     erase(&empty_vec, -1);
     erase(&empty_vec, 0);
-    insert(&half_vec, 7, 4);
+    erase(&half_vec, 3);
     erase(&half_vec, 0);
-    erase(&half_vec, 2);
-    erase(&half_vec, 4);
     erase(&fixed_vec, 4);
-    erase(&fixed_vec_two, 0);
     printf("\n");
 
     print_vector(&null_vec);
@@ -324,9 +378,6 @@ void test_erase() {
     print_vector(&fixed_vec);
     printf("Size: %lld\n", size(&fixed_vec));
     printf("Capacity: %lld\n\n", capacity(&fixed_vec));
-    print_vector(&fixed_vec_two);
-    printf("Size: %lld\n", size(&fixed_vec_two));
-    printf("Capacity: %lld\n\n", capacity(&fixed_vec_two));
     printf("\n\n");
 
     free(null_vec.arr);
@@ -378,12 +429,16 @@ void test_swap() {
 void test_push_front() {
     printf("========== test_push_front() ==========\n");
     struct cvector null_vec = {NULL, 0, 0};
+    cvector_init(&null_vec);
     struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    cvector_init(&empty_vec);
     struct cvector half_vec = {malloc(5 * sizeof(int)), 3, 5};
+    cvector_init(&half_vec);
     half_vec.arr[0] = 1;
     half_vec.arr[1] = 2;
     half_vec.arr[2] = 3;
     struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    cvector_init(&fixed_vec);
     fixed_vec.arr[0] = 1;
     fixed_vec.arr[1] = 2;
     fixed_vec.arr[2] = 3;
@@ -423,12 +478,16 @@ void test_push_front() {
 void test_pop_front() {
     printf("========== test_pop_front() ==========\n");
     struct cvector null_vec = {NULL, 0, 0};
+    cvector_init(&null_vec);
     struct cvector empty_vec = {malloc(0 * sizeof(int)), 0, 0};
+    cvector_init(&empty_vec);
     struct cvector half_vec = {malloc(5 * sizeof(int)), 3, 5};
+    cvector_init(&half_vec);
     half_vec.arr[0] = 1;
     half_vec.arr[1] = 2;
     half_vec.arr[2] = 3;
     struct cvector fixed_vec = {malloc(5 * sizeof(int)), 5, 5};
+    cvector_init(&fixed_vec);
     fixed_vec.arr[0] = 1;
     fixed_vec.arr[1] = 2;
     fixed_vec.arr[2] = 3;
@@ -499,6 +558,7 @@ int main() {
     fixed_vec.arr[3] = 4;
     fixed_vec.arr[4] = 5; */
 
+    //test_cinit();
     //test_print_vector();
     //test_push_back();
     //test_clear();
@@ -509,7 +569,7 @@ int main() {
     test_erase();
     //test_swap();
     //test_push_front();
-    //test_pop_front();
+    test_pop_front();
     //test_at();
 
     return 0;
