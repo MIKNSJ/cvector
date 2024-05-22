@@ -356,8 +356,14 @@ void swap(struct cvector* a, struct cvector* b) {
  * Returns the element at idx of vector.
  * @param vector The vector.
  * @param idx The idx of the item.
- * @return The item.
+ * @return The item or -1 if it does not exist.
 */
 int at(struct cvector* vector, int idx) {
+    if (idx < 0 || idx > (int)vector->size - 1) {
+        fprintf(stderr,
+            "[at() ERROR]: Idx is out of bounds.\n");
+        return -1;
+    }
+    
     return *(vector->arr + idx);
 }
